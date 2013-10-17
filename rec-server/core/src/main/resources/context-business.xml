@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		    http://www.springframework.org/schema/context
+		    http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:component-scan base-package="com.zibea.recommendations.webserver.core.business"/>
+
+    <bean id="eventService" class="com.zibea.recommendations.webserver.core.business.impl.SimpleEventService"/>
+
+    <bean id="partnerActualizer" class="com.zibea.recommendations.webserver.core.business.PartnerInfoActualizer"/>
+
+    <context:property-placeholder location="classpath*:connection.properties"/>
+
+    <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <constructor-arg>
+            <value>${rabbitmq.host}</value>
+        </constructor-arg>
+        <property name="username" value="${rabbitmq.username}"/>
+        <property name="password" value="${rabbitmq.password}"/>
+        <property name="port" value="${rabbitmq.port}"/>
+    </bean>
+
+    <!--service to access remote partner server-->
+    <bean id="partnerService" class="com.zibea.recommendations.common.api.partnerservice.PartnerServiceGateway">
+        <constructor-arg>
+            <value>partner.service.request</value>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="connectionFactory"/>
+        </constructor-arg>
+        <constructor-arg>
+            <value>${rabbitmq.reply.timeout}</value>
+        </constructor-arg>
+    </bean>
+
+</beans>

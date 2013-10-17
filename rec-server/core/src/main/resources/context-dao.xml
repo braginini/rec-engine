@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		    http://www.springframework.org/schema/context
+		    http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:component-scan base-package="com.zibea.recommendations.webserver.core.dao"/>
+
+    <!--<bean id="archiveRunner" class="com.zibea.recommendations.webserver.dataaccess.ArchiveRunner">
+    </bean>-->
+
+    <context:property-placeholder location="classpath*:connection.properties"/>
+
+    <bean id="connectionPool" class="com.zibea.recommendations.webserver.core.dao.hbase.HBaseConnectionPool"
+          lazy-init="false">
+        <!-- hbase.zookeeper.quorum -->
+        <constructor-arg type="java.lang.String" value="${hadoop.hbase.zookeeper.url}"/>
+    </bean>
+
+    <bean id="hdfsConfiguration" class="org.apache.hadoop.conf.Configuration">
+    </bean>
+
+    <bean id="hdfsSiteConfigLoader" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="hdfsConfiguration"/>
+        </property>
+        <property name="targetMethod">
+            <value>addResource</value>
+        </property>
+        <property name="arguments">
+            <value>hdfs-site.xml</value>
+        </property>
+    </bean>
+
+    <bean id="coreSiteConfigLoader" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="hdfsConfiguration"/>
+        </property>
+        <property name="targetMethod">
+            <value>addResource</value>
+        </property>
+        <property name="arguments">
+            <value>core-site.xml</value>
+        </property>
+    </bean>
+
+    <bean id="mapredSiteConfigLoader" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="hdfsConfiguration"/>
+        </property>
+        <property name="targetMethod">
+            <value>addResource</value>
+        </property>
+        <property name="arguments">
+            <value>mapred-site.xml</value>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,29 @@
+package com.zibea.recommendations.common.hbase.proto;
+
+option java_package = "com.zibea.recommendations.common.hbase.proto";
+option java_outer_classname = "EventProto";
+
+message Attributes {
+
+    message KeyValue {
+        required string key = 1;
+        required string value = 2;
+    }
+
+    repeated KeyValue nodes = 1;
+}
+
+message ItemViewEventProto {
+    required int64 itemId = 1;
+    required Attributes attributes = 2;
+}
+
+message PurchaseEventProto {
+    repeated int64 itemIds = 1;
+    required Attributes attributes = 2;
+}
+
+message PageViewEventProto {
+    required string url = 1;
+    required Attributes attributes = 2;
+}

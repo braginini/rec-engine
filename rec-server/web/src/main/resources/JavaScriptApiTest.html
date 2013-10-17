@@ -1,0 +1,15 @@
+<script>
+    var partnerApiKey = "XxcRSBqC9USAu5kc1OvRxnRjiEVrOzGO";
+    (function(d) {
+        var ref = d.getElementsByTagName('script')[0];
+        var jsApi, jsApiId = 'recJsApi';
+
+        if (d.getElementById(jsApiId)) return;
+
+        jsApi = d.createElement('script');
+        jsApi.id = jsApiId;
+        jsApi.async = true;
+        jsApi.src = "http://localhost:8080/content/js/api.js";
+        ref.parentNode.insertBefore(jsApi, ref);
+    }(document));
+</script>

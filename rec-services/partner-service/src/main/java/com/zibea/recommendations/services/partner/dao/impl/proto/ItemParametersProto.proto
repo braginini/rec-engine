@@ -1,0 +1,15 @@
+package com.zibea.recommendations.services.partner.dao.impl.proto;
+
+option java_package = "com.zibea.recommendations.services.partner.dao.impl.proto";
+option java_outer_classname = "ItemParametersProto";
+
+message Parameters {
+
+    message Parameter {
+        required string key = 1;
+        required string value = 2;
+        optional string unit = 3;
+    }
+
+    repeated Parameter param = 1;
+}

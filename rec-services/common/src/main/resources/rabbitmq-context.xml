@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean id="rabbitConnFactory"
+          class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <constructor-arg>
+            <value>localhost</value>
+        </constructor-arg>
+        <property name="username" value="guest"/>
+        <property name="password" value="guest"/>
+        <property name="port" value="5672"/>
+    </bean>
+
+    <!-- Spring AMQP Template
+    <bean id="eventTemplate"
+          class="org.springframework.amqp.rabbit.core.RabbitTemplate">
+        <property name="connectionFactory" ref="rabbitConnFactory"/>
+        <property name="routingKey" value="event.queue"/>
+        <property name="queue" value="event.queue"/>
+    </bean>-->
+
+    <!-- Spring AMQP Admin -->
+    <bean id="admin" class="org.springframework.amqp.rabbit.core.RabbitAdmin">
+        <constructor-arg ref="rabbitConnFactory"/>
+    </bean>
+
+    <bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.JsonMessageConverter"/>
+
+    <!--<bean id="queue" class="org.springframework.amqp.core.Queue">
+        <constructor-arg value="event.queue"/>
+    </bean>-->
+
+
+
+
+</beans>

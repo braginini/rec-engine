@@ -1,0 +1,6 @@
+target/
+/home/mikhail/dev/IdeaProjects/recommendations/rec-server/.idea
+*.iml
+*.iws
+workspace.xml
+/.idea/
